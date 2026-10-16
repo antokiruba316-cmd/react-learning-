@@ -121,114 +121,57 @@
 
 // export default App
 
-
-
-
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import "./App.css";
-import images from "./assets/images.jsx";
 
 function App() {
-    let [likes, setLikes] = useState(0);
-    let [show, setShow] = useState(true);
-    let [color, setColor] = useState("#20252b");
-    let [message, setMessage] = useState("");
-    let [users, setUsers] = useState([]);
+  const [form, setForm] = useState({
+    firstName: "",
+    email: "",
+    age: ""
+  });
 
-    // Get users from API
-    useEffect(() => {
-        fetch("https://jsonplaceholder.typicode.com/users")
-            .then((response) => response.json())
-            .then((data) => {
-                setUsers(data.slice(0, 6));
-            })
-            .catch(() => {
-                setMessage("Unable to load users. Please try again.");
-            });
-    }, []);
+  function handleChange(e) {
+    const name = e.target.name;
+    const value = e.target.value;
 
-    console.log(users,"users")
+    setForm({
+      ...form,
+      [name]: value
+    });
+  }
 
-    return (
-        <div className="main">
+  return (
+    <div>
+      <input
+        type="text"
+        name="firstName"
+        placeholder="First Name"
+        value={form.firstName}
+        onChange={handleChange}
+      />
 
-            
-            <div className="box" style={{ backgroundColor: color }}>
-                <h1>Vikings</h1>
+      <br />
 
-                {message && <p className="alert">{message}</p>}
+      <input
+        type="email"
+        name="email"
+        placeholder="Email"
+        value={form.email}
+        onChange={handleChange}
+      />
 
-                <img src={images.anto} alt="Vikings" />
+      <br />
 
-                {show && (
-                    <p>
-                        Power is dangerous. It corrupts the best and attracts the worst.
-                        <br />
-                        — Ragnar Lothbrok
-                    </p>
-                )}
-
-                <div className="buttons">
-                    <button onClick={() => {
-                        setLikes(likes + 1);
-                        setMessage("You liked this page!");
-                    }}>
-                        Like {likes}
-                    </button>
-
-                    <button onClick={() => {
-                        setShow(!show);
-                        setMessage(show ? "Quote hidden!" : "Quote displayed!");
-                    }}>
-                        {show ? "Hide Quote" : "Show Quote"}
-                    </button>
-
-                    <button onClick={() => {
-                        setColor("#dfe7ea");
-                        setMessage("Background colour changed!");
-                    }}>
-                        Change Background
-                    </button>
-                </div>
-            </div>
-
-                    
-            <div className="user-section">
-                <h1>User Details</h1>
-
-                <div className="users">
-                    {users.map((user) => (
-                        <div className="card" key={user.id}>
-                            <h2>{user.username}</h2>
-                            <p>{user.email}</p>
-                        </div>
-                    ))}
-                </div>
-            </div>
-
-        </div>
-    );
+      <input
+        type="number"
+        name="age"
+        placeholder="Age"
+        value={form.age}
+        onChange={handleChange}
+      />
+    </div>
+  );
 }
 
 export default App;
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
